@@ -1,10 +1,13 @@
 #ifndef NGLSCENE_H_
 #define NGLSCENE_H_
 #include "mainwindow.h"
+#include "ArmLink.h"
+
 #include <ngl/Camera.h>
 #include <ngl/Colour.h>
 #include <ngl/Light.h>
 #include <ngl/Text.h>
+#include <vector>
 #include <QOpenGLWindow>
 //----------------------------------------------------------------------------------------------------------------------
 /// @file NGLScene.h
@@ -45,8 +48,14 @@ public:
   /// @brief this is called everytime we want to draw the scene
   //----------------------------------------------------------------------------------------------------------------------
   void resizeGL(int _w, int _h) override;
-
+  void drawScene(const std::string &_shader);
+  void MakeArms(int m_num);
+  void Update(size_t _id);
+  void Tranform();
 private:
+
+
+
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief the windows params such as mouse and rotations etc
   //----------------------------------------------------------------------------------------------------------------------
@@ -95,6 +104,9 @@ private:
   /// @param _event the Qt Event structure
   //----------------------------------------------------------------------------------------------------------------------
   void wheelEvent(QWheelEvent *_event) override;
+  //----------------------------------------------------------------------------------------------------------------------
+   std::vector<ArmLink>  m_arms;
+   ngl::Transformation m_transform;
 };
 
 

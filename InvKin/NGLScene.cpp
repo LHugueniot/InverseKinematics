@@ -98,7 +98,11 @@ void NGLScene::initializeGL()
     light.setTransform( iv );
     // load these values to the shader as well
     light.loadToShader( "light" );
+
+    MakeArms(4);
+    //Update();
 }
+
 
 
 void NGLScene::loadMatricesToShader()
@@ -109,7 +113,7 @@ void NGLScene::loadMatricesToShader()
     ngl::Mat4 MVP;
     ngl::Mat3 normalMatrix;
     ngl::Mat4 M;
-    M            = m_mouseGlobalTX;
+    M            = m_mouseGlobalTX*m_transform.getMatrix();
     MV           = m_cam.getViewMatrix() * M;
     MVP          = m_cam.getVPMatrix() * M;
 
@@ -126,32 +130,96 @@ void NGLScene::paintGL()
     glViewport( 0, 0, m_win.width, m_win.height );
     // clear the screen and depth buffer
     glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
+    drawScene("Phong");
+}
+//----------------------------------------------------------------------------------------------------------------------
 
-    // grab an instance of the shader manager
-    ngl::ShaderLib* shader = ngl::ShaderLib::instance();
-    ( *shader )[ "Phong" ]->use();
+void NGLScene::drawScene(const std::string &_shader)
+{
+  // grab an instance of the shader manager
+  ngl::ShaderLib *shader=ngl::ShaderLib::instance();
+  (*shader)[_shader]->use();
+  // clear the screen and depth buffer
+  // Rotation based on the mouse position for our global
+  // transform
+  ngl::Mat4 rotX;
+  ngl::Mat4 rotY;
+  // create the rotation matrices
+  rotX.rotateX(m_win.spinXFace);
+  rotY.rotateY(m_win.spinYFace);
+  // multiply the rotations
+  m_mouseGlobalTX=rotY*rotX;
+  // add the translations
+  m_mouseGlobalTX.m_m[3][0] = m_modelPos.m_x;
+  m_mouseGlobalTX.m_m[3][1] = m_modelPos.m_y;
+  m_mouseGlobalTX.m_m[3][2] = m_modelPos.m_z;
 
-    // Rotation based on the mouse position for our global transform
-    ngl::Mat4 rotX;
-    ngl::Mat4 rotY;
-    // create the rotation matrices
-    rotX.rotateX( m_win.spinXFace );
-    rotY.rotateY( m_win.spinYFace );
-    // multiply the rotations
-    m_mouseGlobalTX = rotX * rotY;
-    // add the translations
-    m_mouseGlobalTX.m_m[ 3 ][ 0 ] = m_modelPos.m_x;
-    m_mouseGlobalTX.m_m[ 3 ][ 1 ] = m_modelPos.m_y;
-    m_mouseGlobalTX.m_m[ 3 ][ 2 ] = m_modelPos.m_z;
+   // get the VBO instance and draw the built in teapot
+  ngl::VAOPrimitives *prim=ngl::VAOPrimitives::instance();
+  prim->createTrianglePlane("plane",10,10,1,1,ngl::Vec3(0,0,0));
 
-    // get the VBO instance and draw the built in teapot
-    ngl::VAOPrimitives* prim = ngl::VAOPrimitives::instance();
-    // draw
-    loadMatricesToShader();
-    ngl::Transformation m_transform;
-    m_transform.reset();
-    prim->draw( "teapot" );
-    m_transform.setScale(1.0f,0.1f,0.1f);
+  loadMatricesToShader();
+  prim->draw("plane");
+  for(size_t i = 0; i<m_arms.size(); ++i)
+  {
+      m_arms[i].m_scale=ngl::Vec3(1,1,1);
+      m_transform.reset();
+      {
+          m_transform.setRotation(m_arms[i].m_rot.m_x, m_arms[i].m_rot.m_y, m_arms[i].m_rot.m_z);
+          m_transform.setPosition(m_arms[i].m_pos.m_x, m_arms[i].m_pos.m_y, m_arms[i].m_pos.m_z);
+          m_transform.setScale(m_arms[i].m_scale.m_x, m_arms[i].m_scale.m_y, m_arms[i].m_scale.m_z);
+          Update(i);
+        loadMatricesToShader();
+        m_arms[i].m_vao->draw();
+      } // and before a pop
+
+  }
+
+}
+//----------------------------------------------------------------------------------------------------------------------
+void NGLScene::MakeArms(int m_num)
+{
+    for ( int i = 0; i < m_num; ++i )
+    {
+        m_arms.emplace_back();
+        m_arms[i].buildVAO();
+    }
+}
+
+void NGLScene::Tranform()
+{
+
+
+    m_arms[1].verts[1]=ngl::Vec3(1,1,1);
+
+
+}
+
+void NGLScene::Update(size_t _id)
+{
+    //for ( int i = 0; i < m_arms.size(); ++i )
+    //{
+        m_arms[_id].m_vao.reset(ngl::VAOFactory::createVAO(ngl::simpleVAO,GL_TRIANGLES) );
+        m_arms[_id].m_vao->bind();
+        //ngl::Transformation::setPosition();
+        // in this case we are going to set our data as the vertices above
+        auto dataSize = sizeof(m_arms[_id].verts[0]);
+        m_arms[_id].m_vao->setData(ngl::SimpleVAO::VertexData( m_arms[_id].verts.size()*dataSize, m_arms[_id].verts[0].u));
+        //m_vao->setData(ngl::SimpleVAO::NormalData(verts.size()*sizeof(ngl::Vec3),verts[0].m_x));
+        // now we set the attribute pointer to be 0 (as this matches vertIn in our shader)
+
+        m_arms[_id].m_vao->setVertexAttributePointer(0,3,GL_FLOAT,dataSize,5);
+        // uv same as above but starts at 0 and is attrib 1 and only u,v so 2
+        m_arms[_id].m_vao->setVertexAttributePointer(1,2,GL_FLOAT,dataSize,0);
+        // normal same as vertex only starts at position 2 (u,v)-> nx
+        m_arms[_id].m_vao->setVertexAttributePointer(2,3,GL_FLOAT,dataSize,2);
+
+        // divide by 2 as we have both verts and normals
+        m_arms[_id].m_vao->setNumIndices( m_arms[_id].verts.size());
+
+        // now unbind
+        //m_arms[i]. m_vao->unbind();
+    //}
 }
 
 //----------------------------------------------------------------------------------------------------------------------

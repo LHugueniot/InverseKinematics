@@ -25,13 +25,16 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 SOURCES += \
         main.cpp \
-        mainwindow.cpp \
     NGLScene.cpp \
-    NGLSceneMouseControl.cpp
+    NGLSceneMouseControl.cpp \
+    ArmLink.cpp \
+    InverKinematicsBehaviour.cpp
 
 HEADERS += \
         mainwindow.h \
-    NGLScene.h
+    NGLScene.h \
+    ArmLink.h \
+    InverKinematicsBehaviour.h
 
 FORMS += \
         mainwindow.ui

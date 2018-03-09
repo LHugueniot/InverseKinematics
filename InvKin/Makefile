@@ -52,20 +52,21 @@ OBJECTS_DIR   = obj/
 ####### Files
 
 SOURCES       = main.cpp \
-		mainwindow.cpp \
 		NGLScene.cpp \
-		NGLSceneMouseControl.cpp moc/moc_NGLScene.cpp
+		NGLSceneMouseControl.cpp \
+		ArmLink.cpp moc/moc_NGLScene.cpp
 OBJECTS       = obj/main.o \
-		obj/mainwindow.o \
 		obj/NGLScene.o \
 		obj/NGLSceneMouseControl.o \
+		obj/ArmLink.o \
 		obj/moc_NGLScene.o
 DIST          = .qmake.stash \
 		InvKin.pro mainwindow.h \
-		NGLScene.h main.cpp \
-		mainwindow.cpp \
+		NGLScene.h \
+		ArmLink.h main.cpp \
 		NGLScene.cpp \
-		NGLSceneMouseControl.cpp
+		NGLSceneMouseControl.cpp \
+		ArmLink.cpp
 QMAKE_TARGET  = SimpleNGL
 DESTDIR       = 
 TARGET        = SimpleNGL
@@ -467,8 +468,8 @@ distdir: FORCE
 	@test -d $(DISTDIR) || mkdir -p $(DISTDIR)
 	$(COPY_FILE) --parents $(DIST) $(DISTDIR)/
 	$(COPY_FILE) --parents /opt/Qt5.9.0/5.9/gcc_64/mkspecs/features/data/dummy.cpp $(DISTDIR)/
-	$(COPY_FILE) --parents mainwindow.h NGLScene.h $(DISTDIR)/
-	$(COPY_FILE) --parents main.cpp mainwindow.cpp NGLScene.cpp NGLSceneMouseControl.cpp $(DISTDIR)/
+	$(COPY_FILE) --parents mainwindow.h NGLScene.h ArmLink.h $(DISTDIR)/
+	$(COPY_FILE) --parents main.cpp NGLScene.cpp NGLSceneMouseControl.cpp ArmLink.cpp $(DISTDIR)/
 	$(COPY_FILE) --parents mainwindow.ui $(DISTDIR)/
 
 
@@ -608,6 +609,7 @@ moc/moc_NGLScene.cpp: mainwindow.h \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qtouchdevice.h \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/qtabwidget.h \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qicon.h \
+		ArmLink.h \
 		/home/s4906706/NGL/include/ngl/Camera.h \
 		/home/s4906706/NGL/include/ngl/Types.h \
 		/home/s4906706/NGL/include/ngl/glew.h \
@@ -634,8 +636,20 @@ moc/moc_NGLScene.cpp: mainwindow.h \
 		/home/s4906706/NGL/include/ngl/AABB.h \
 		/home/s4906706/NGL/include/ngl/BBox.h \
 		/home/s4906706/NGL/include/ngl/AbstractVAO.h \
-		/home/s4906706/NGL/include/ngl/Colour.h \
 		/home/s4906706/NGL/include/ngl/Light.h \
+		/home/s4906706/NGL/include/ngl/Colour.h \
+		/home/s4906706/NGL/include/ngl/Material.h \
+		/home/s4906706/NGL/include/ngl/NGLInit.h \
+		/home/s4906706/NGL/include/ngl/Singleton.h \
+		/home/s4906706/NGL/include/ngl/VAOPrimitives.h \
+		/home/s4906706/NGL/include/ngl/NGLStream.h \
+		/home/s4906706/NGL/include/ngl/ShaderLib.h \
+		/home/s4906706/NGL/include/ngl/Shader.h \
+		/home/s4906706/NGL/include/ngl/ShaderProgram.h \
+		/home/s4906706/NGL/include/ngl/Util.h \
+		/home/s4906706/NGL/include/ngl/Mat3.h \
+		/home/s4906706/NGL/include/ngl/Transformation.h \
+		/home/s4906706/NGL/include/ngl/NGLassert.h \
 		/home/s4906706/NGL/include/ngl/Text.h \
 		/home/s4906706/NGL/include/ngl/VAOFactory.h \
 		/home/s4906706/NGL/include/ngl/SimpleVAO.h \
@@ -786,6 +800,7 @@ obj/main.o: main.cpp mainwindow.h \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/qtabwidget.h \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qicon.h \
 		NGLScene.h \
+		ArmLink.h \
 		/home/s4906706/NGL/include/ngl/Camera.h \
 		/home/s4906706/NGL/include/ngl/Types.h \
 		/home/s4906706/NGL/include/ngl/glew.h \
@@ -812,8 +827,20 @@ obj/main.o: main.cpp mainwindow.h \
 		/home/s4906706/NGL/include/ngl/AABB.h \
 		/home/s4906706/NGL/include/ngl/BBox.h \
 		/home/s4906706/NGL/include/ngl/AbstractVAO.h \
-		/home/s4906706/NGL/include/ngl/Colour.h \
 		/home/s4906706/NGL/include/ngl/Light.h \
+		/home/s4906706/NGL/include/ngl/Colour.h \
+		/home/s4906706/NGL/include/ngl/Material.h \
+		/home/s4906706/NGL/include/ngl/NGLInit.h \
+		/home/s4906706/NGL/include/ngl/Singleton.h \
+		/home/s4906706/NGL/include/ngl/VAOPrimitives.h \
+		/home/s4906706/NGL/include/ngl/NGLStream.h \
+		/home/s4906706/NGL/include/ngl/ShaderLib.h \
+		/home/s4906706/NGL/include/ngl/Shader.h \
+		/home/s4906706/NGL/include/ngl/ShaderProgram.h \
+		/home/s4906706/NGL/include/ngl/Util.h \
+		/home/s4906706/NGL/include/ngl/Mat3.h \
+		/home/s4906706/NGL/include/ngl/Transformation.h \
+		/home/s4906706/NGL/include/ngl/NGLassert.h \
 		/home/s4906706/NGL/include/ngl/Text.h \
 		/home/s4906706/NGL/include/ngl/VAOFactory.h \
 		/home/s4906706/NGL/include/ngl/SimpleVAO.h \
@@ -844,9 +871,6 @@ obj/main.o: main.cpp mainwindow.h \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qinputmethod.h \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/QGuiApplication
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o obj/main.o main.cpp
-
-obj/mainwindow.o: mainwindow.cpp 
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o obj/mainwindow.o mainwindow.cpp
 
 obj/NGLScene.o: NGLScene.cpp NGLScene.h \
 		mainwindow.h \
@@ -953,6 +977,7 @@ obj/NGLScene.o: NGLScene.cpp NGLScene.h \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qtouchdevice.h \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/qtabwidget.h \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qicon.h \
+		ArmLink.h \
 		/home/s4906706/NGL/include/ngl/Camera.h \
 		/home/s4906706/NGL/include/ngl/Types.h \
 		/home/s4906706/NGL/include/ngl/glew.h \
@@ -979,8 +1004,20 @@ obj/NGLScene.o: NGLScene.cpp NGLScene.h \
 		/home/s4906706/NGL/include/ngl/AABB.h \
 		/home/s4906706/NGL/include/ngl/BBox.h \
 		/home/s4906706/NGL/include/ngl/AbstractVAO.h \
-		/home/s4906706/NGL/include/ngl/Colour.h \
 		/home/s4906706/NGL/include/ngl/Light.h \
+		/home/s4906706/NGL/include/ngl/Colour.h \
+		/home/s4906706/NGL/include/ngl/Material.h \
+		/home/s4906706/NGL/include/ngl/NGLInit.h \
+		/home/s4906706/NGL/include/ngl/Singleton.h \
+		/home/s4906706/NGL/include/ngl/VAOPrimitives.h \
+		/home/s4906706/NGL/include/ngl/NGLStream.h \
+		/home/s4906706/NGL/include/ngl/ShaderLib.h \
+		/home/s4906706/NGL/include/ngl/Shader.h \
+		/home/s4906706/NGL/include/ngl/ShaderProgram.h \
+		/home/s4906706/NGL/include/ngl/Util.h \
+		/home/s4906706/NGL/include/ngl/Mat3.h \
+		/home/s4906706/NGL/include/ngl/Transformation.h \
+		/home/s4906706/NGL/include/ngl/NGLassert.h \
 		/home/s4906706/NGL/include/ngl/Text.h \
 		/home/s4906706/NGL/include/ngl/VAOFactory.h \
 		/home/s4906706/NGL/include/ngl/SimpleVAO.h \
@@ -1007,17 +1044,7 @@ obj/NGLScene.o: NGLScene.cpp NGLScene.h \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qcoreapplication.h \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qeventloop.h \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qinputmethod.h \
-		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/QMouseEvent \
-		/home/s4906706/NGL/include/ngl/Material.h \
-		/home/s4906706/NGL/include/ngl/NGLInit.h \
-		/home/s4906706/NGL/include/ngl/Singleton.h \
-		/home/s4906706/NGL/include/ngl/VAOPrimitives.h \
-		/home/s4906706/NGL/include/ngl/NGLStream.h \
-		/home/s4906706/NGL/include/ngl/ShaderLib.h \
-		/home/s4906706/NGL/include/ngl/Shader.h \
-		/home/s4906706/NGL/include/ngl/ShaderProgram.h \
-		/home/s4906706/NGL/include/ngl/Util.h \
-		/home/s4906706/NGL/include/ngl/Mat3.h
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/QMouseEvent
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o obj/NGLScene.o NGLScene.cpp
 
 obj/NGLSceneMouseControl.o: NGLSceneMouseControl.cpp NGLScene.h \
@@ -1125,6 +1152,7 @@ obj/NGLSceneMouseControl.o: NGLSceneMouseControl.cpp NGLScene.h \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qtouchdevice.h \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/qtabwidget.h \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qicon.h \
+		ArmLink.h \
 		/home/s4906706/NGL/include/ngl/Camera.h \
 		/home/s4906706/NGL/include/ngl/Types.h \
 		/home/s4906706/NGL/include/ngl/glew.h \
@@ -1151,8 +1179,20 @@ obj/NGLSceneMouseControl.o: NGLSceneMouseControl.cpp NGLScene.h \
 		/home/s4906706/NGL/include/ngl/AABB.h \
 		/home/s4906706/NGL/include/ngl/BBox.h \
 		/home/s4906706/NGL/include/ngl/AbstractVAO.h \
-		/home/s4906706/NGL/include/ngl/Colour.h \
 		/home/s4906706/NGL/include/ngl/Light.h \
+		/home/s4906706/NGL/include/ngl/Colour.h \
+		/home/s4906706/NGL/include/ngl/Material.h \
+		/home/s4906706/NGL/include/ngl/NGLInit.h \
+		/home/s4906706/NGL/include/ngl/Singleton.h \
+		/home/s4906706/NGL/include/ngl/VAOPrimitives.h \
+		/home/s4906706/NGL/include/ngl/NGLStream.h \
+		/home/s4906706/NGL/include/ngl/ShaderLib.h \
+		/home/s4906706/NGL/include/ngl/Shader.h \
+		/home/s4906706/NGL/include/ngl/ShaderProgram.h \
+		/home/s4906706/NGL/include/ngl/Util.h \
+		/home/s4906706/NGL/include/ngl/Mat3.h \
+		/home/s4906706/NGL/include/ngl/Transformation.h \
+		/home/s4906706/NGL/include/ngl/NGLassert.h \
 		/home/s4906706/NGL/include/ngl/Text.h \
 		/home/s4906706/NGL/include/ngl/VAOFactory.h \
 		/home/s4906706/NGL/include/ngl/SimpleVAO.h \
@@ -1176,6 +1216,150 @@ obj/NGLSceneMouseControl.o: NGLSceneMouseControl.cpp NGLScene.h \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/QImage \
 		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/QMouseEvent
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o obj/NGLSceneMouseControl.o NGLSceneMouseControl.cpp
+
+obj/ArmLink.o: ArmLink.cpp ArmLink.h \
+		/home/s4906706/NGL/include/ngl/Camera.h \
+		/home/s4906706/NGL/include/ngl/Types.h \
+		/home/s4906706/NGL/include/ngl/glew.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtOpenGL/QGLContext \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtOpenGL/qgl.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qopengl.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qtguiglobal.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qglobal.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qconfig-bootstrapped.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qconfig.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qtcore-config.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qsystemdetection.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qprocessordetection.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qcompilerdetection.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qtypeinfo.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qsysinfo.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qlogging.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qflags.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qatomic.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qbasicatomic.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qatomic_bootstrap.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qgenericatomic.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qatomic_cxx11.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qatomic_msvc.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qglobalstatic.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qmutex.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qnumeric.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qversiontagging.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qtgui-config.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qt_windows.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qopengles2ext.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qopenglext.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/qwidget.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/qtwidgetsglobal.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/qtwidgets-config.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qwindowdefs.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qobjectdefs.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qnamespace.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qobjectdefs_impl.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qwindowdefs_win.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qobject.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qstring.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qchar.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qbytearray.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qrefcount.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qarraydata.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qstringbuilder.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qlist.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qalgorithms.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qiterator.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qhashfunctions.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qpair.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qbytearraylist.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qstringlist.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qregexp.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qstringmatcher.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qcoreevent.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qscopedpointer.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qmetatype.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qvarlengtharray.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qcontainerfwd.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qobject_impl.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qmargins.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qpaintdevice.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qrect.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qsize.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qpoint.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qpalette.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qcolor.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qrgb.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qrgba64.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qbrush.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qvector.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qmatrix.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qpolygon.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qregion.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qdatastream.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qiodevice.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qline.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qtransform.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qpainterpath.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qimage.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qpixelformat.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qpixmap.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qsharedpointer.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qshareddata.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qhash.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qsharedpointer_impl.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qfont.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qfontmetrics.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qfontinfo.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtWidgets/qsizepolicy.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qcursor.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qkeysequence.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qevent.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qvariant.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qmap.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qdebug.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qtextstream.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qlocale.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qset.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qcontiguouscache.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qurl.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qurlquery.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qfile.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtCore/qfiledevice.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qvector2d.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qtouchdevice.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qpaintengine.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qpainter.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qtextoption.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qpen.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtOpenGL/qglcolormap.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtOpenGL/qtopenglglobal.h \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/QSurfaceFormat \
+		/opt/Qt5.9.0/5.9/gcc_64/include/QtGui/qsurfaceformat.h \
+		/home/s4906706/NGL/include/ngl/Vec4.h \
+		/home/s4906706/NGL/include/ngl/Vec2.h \
+		/home/s4906706/NGL/include/ngl/Vec3.h \
+		/home/s4906706/NGL/include/ngl/Mat4.h \
+		/home/s4906706/NGL/include/ngl/RibExport.h \
+		/home/s4906706/NGL/include/ngl/Plane.h \
+		/home/s4906706/NGL/include/ngl/AABB.h \
+		/home/s4906706/NGL/include/ngl/BBox.h \
+		/home/s4906706/NGL/include/ngl/AbstractVAO.h \
+		/home/s4906706/NGL/include/ngl/Light.h \
+		/home/s4906706/NGL/include/ngl/Colour.h \
+		/home/s4906706/NGL/include/ngl/Material.h \
+		/home/s4906706/NGL/include/ngl/NGLInit.h \
+		/home/s4906706/NGL/include/ngl/Singleton.h \
+		/home/s4906706/NGL/include/ngl/VAOPrimitives.h \
+		/home/s4906706/NGL/include/ngl/NGLStream.h \
+		/home/s4906706/NGL/include/ngl/ShaderLib.h \
+		/home/s4906706/NGL/include/ngl/Shader.h \
+		/home/s4906706/NGL/include/ngl/ShaderProgram.h \
+		/home/s4906706/NGL/include/ngl/Util.h \
+		/home/s4906706/NGL/include/ngl/Mat3.h \
+		/home/s4906706/NGL/include/ngl/Transformation.h \
+		/home/s4906706/NGL/include/ngl/NGLassert.h \
+		/home/s4906706/NGL/include/ngl/SimpleVAO.h \
+		/home/s4906706/NGL/include/ngl/VAOFactory.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o obj/ArmLink.o ArmLink.cpp
 
 obj/moc_NGLScene.o: moc/moc_NGLScene.cpp 
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o obj/moc_NGLScene.o moc/moc_NGLScene.cpp
