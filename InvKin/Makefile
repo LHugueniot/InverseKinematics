@@ -54,19 +54,23 @@ OBJECTS_DIR   = obj/
 SOURCES       = main.cpp \
 		NGLScene.cpp \
 		NGLSceneMouseControl.cpp \
-		ArmLink.cpp moc/moc_NGLScene.cpp
+		ArmLink.cpp \
+		InverKinematicsBehaviour.cpp moc/moc_NGLScene.cpp
 OBJECTS       = obj/main.o \
 		obj/NGLScene.o \
 		obj/NGLSceneMouseControl.o \
 		obj/ArmLink.o \
+		obj/InverKinematicsBehaviour.o \
 		obj/moc_NGLScene.o
 DIST          = .qmake.stash \
 		InvKin.pro mainwindow.h \
 		NGLScene.h \
-		ArmLink.h main.cpp \
+		ArmLink.h \
+		InverKinematicsBehaviour.h main.cpp \
 		NGLScene.cpp \
 		NGLSceneMouseControl.cpp \
-		ArmLink.cpp
+		ArmLink.cpp \
+		InverKinematicsBehaviour.cpp
 QMAKE_TARGET  = SimpleNGL
 DESTDIR       = 
 TARGET        = SimpleNGL
@@ -468,8 +472,8 @@ distdir: FORCE
 	@test -d $(DISTDIR) || mkdir -p $(DISTDIR)
 	$(COPY_FILE) --parents $(DIST) $(DISTDIR)/
 	$(COPY_FILE) --parents /opt/Qt5.9.0/5.9/gcc_64/mkspecs/features/data/dummy.cpp $(DISTDIR)/
-	$(COPY_FILE) --parents mainwindow.h NGLScene.h ArmLink.h $(DISTDIR)/
-	$(COPY_FILE) --parents main.cpp NGLScene.cpp NGLSceneMouseControl.cpp ArmLink.cpp $(DISTDIR)/
+	$(COPY_FILE) --parents mainwindow.h NGLScene.h ArmLink.h InverKinematicsBehaviour.h $(DISTDIR)/
+	$(COPY_FILE) --parents main.cpp NGLScene.cpp NGLSceneMouseControl.cpp ArmLink.cpp InverKinematicsBehaviour.cpp $(DISTDIR)/
 	$(COPY_FILE) --parents mainwindow.ui $(DISTDIR)/
 
 
@@ -1360,6 +1364,9 @@ obj/ArmLink.o: ArmLink.cpp ArmLink.h \
 		/home/s4906706/NGL/include/ngl/SimpleVAO.h \
 		/home/s4906706/NGL/include/ngl/VAOFactory.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o obj/ArmLink.o ArmLink.cpp
+
+obj/InverKinematicsBehaviour.o: InverKinematicsBehaviour.cpp InverKinematicsBehaviour.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o obj/InverKinematicsBehaviour.o InverKinematicsBehaviour.cpp
 
 obj/moc_NGLScene.o: moc/moc_NGLScene.cpp 
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o obj/moc_NGLScene.o moc/moc_NGLScene.cpp

@@ -94,10 +94,27 @@ void NGLScene::initializeGL()
     // transformations
     ngl::Mat4 iv = m_cam.getViewMatrix();
     iv.transpose();
-    ngl::Light light( ngl::Vec3( -2, 5, 2 ), ngl::Colour( 1, 1, 1, 1 ), ngl::Colour( 1, 1, 1, 1 ), ngl::LightModes::POINTLIGHT );
+    ngl::Light light( ngl::Vec3( 5, 0, 0 ), ngl::Colour( 1, 1, 1, 1 ), ngl::Colour( 0, 1, 1, 1 ), ngl::LightModes::POINTLIGHT );
+    ngl::Light light1( ngl::Vec3( 0, 5, 0 ), ngl::Colour( 1, 1, 1, 1 ), ngl::Colour( 1, 1, 1, 1 ), ngl::LightModes::POINTLIGHT );
+    ngl::Light light2( ngl::Vec3( 0, 0, 5 ), ngl::Colour( 1, 1, 1, 1 ), ngl::Colour( 1, 1, 1, 1 ), ngl::LightModes::POINTLIGHT );
+    ngl::Light light3( ngl::Vec3( -5, 0, 0 ), ngl::Colour( 1, 1, 1, 1 ), ngl::Colour( 1, 1, 1, 1 ), ngl::LightModes::POINTLIGHT );
+    ngl::Light light4( ngl::Vec3( 0, -5, 0 ), ngl::Colour( 1, 1, 1, 1 ), ngl::Colour( 1, 1, 1, 1 ), ngl::LightModes::POINTLIGHT );
+    ngl::Light light5( ngl::Vec3( 0, 0, -5 ), ngl::Colour( 1, 1, 1, 1 ), ngl::Colour( 1, 1, 1, 1 ), ngl::LightModes::POINTLIGHT );
+
+
     light.setTransform( iv );
+    light1.setTransform( iv );
+    light2.setTransform( iv );
+    light3.setTransform( iv );
+    light4.setTransform( iv );
+    light5.setTransform( iv );
     // load these values to the shader as well
     light.loadToShader( "light" );
+    light1.loadToShader( "light" );
+    light2.loadToShader( "light" );
+    light3.loadToShader( "light" );
+    light4.loadToShader( "light" );
+    light5.loadToShader( "light" );
 
     MakeArms(4);
     //Update();
@@ -144,6 +161,7 @@ void NGLScene::drawScene(const std::string &_shader)
   // transform
   ngl::Mat4 rotX;
   ngl::Mat4 rotY;
+  ngl::Mat4 rotZ;
   // create the rotation matrices
   rotX.rotateX(m_win.spinXFace);
   rotY.rotateY(m_win.spinYFace);
@@ -158,11 +176,16 @@ void NGLScene::drawScene(const std::string &_shader)
   ngl::VAOPrimitives *prim=ngl::VAOPrimitives::instance();
   prim->createTrianglePlane("plane",10,10,1,1,ngl::Vec3(0,0,0));
 
-  loadMatricesToShader();
   prim->draw("plane");
+  loadMatricesToShader();
+
+  m_arms[1].m_rot=ngl::Vec3(-90,0,0);
+  m_arms[1].m_pos=ngl::Vec3(0,1,0);
+
   for(size_t i = 0; i<m_arms.size(); ++i)
   {
-      m_arms[i].m_scale=ngl::Vec3(1,1,1);
+
+      m_arms[i].m_scale=ngl::Vec3(0.2,0.2,0.2);
       m_transform.reset();
       {
           m_transform.setRotation(m_arms[i].m_rot.m_x, m_arms[i].m_rot.m_y, m_arms[i].m_rot.m_z);
