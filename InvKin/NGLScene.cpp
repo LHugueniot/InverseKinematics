@@ -80,7 +80,7 @@ void NGLScene::initializeGL()
     // Now we will create a basic Camera from the graphics library
     // This is a static camera so it only needs to be set once
     // First create Values for the camera position
-    ngl::Vec3 from( 1, 1, 1 );
+    ngl::Vec3 from( 0, 1, 1 );
     ngl::Vec3 to( 0, 0, 0 );
     ngl::Vec3 up( 0, 1, 0 );
     // now load to our new camera
@@ -93,6 +93,7 @@ void NGLScene::initializeGL()
     // transpose of the projection matrix to the light to do correct eye space
     // transformations
     ngl::Mat4 iv = m_cam.getViewMatrix();
+
     iv.transpose();
     ngl::Light light( ngl::Vec3( 5, 0, 0 ), ngl::Colour( 1, 1, 1, 1 ), ngl::Colour( 0, 1, 1, 1 ), ngl::LightModes::POINTLIGHT );
     ngl::Light light1( ngl::Vec3( 0, 5, 0 ), ngl::Colour( 1, 1, 1, 1 ), ngl::Colour( 1, 1, 1, 1 ), ngl::LightModes::POINTLIGHT );
@@ -166,7 +167,7 @@ void NGLScene::drawScene(const std::string &_shader)
   rotX.rotateX(m_win.spinXFace);
   rotY.rotateY(m_win.spinYFace);
   // multiply the rotations
-  m_mouseGlobalTX=rotY*rotX;
+  m_mouseGlobalTX=rotX*rotY;
   // add the translations
   m_mouseGlobalTX.m_m[3][0] = m_modelPos.m_x;
   m_mouseGlobalTX.m_m[3][1] = m_modelPos.m_y;
@@ -179,7 +180,7 @@ void NGLScene::drawScene(const std::string &_shader)
   prim->draw("plane");
   loadMatricesToShader();
 
-  m_arms[1].m_rot=ngl::Vec3(-90,0,0);
+  m_arms[1].m_rot=ngl::Vec3(0,0,0);
   m_arms[1].m_pos=ngl::Vec3(0,1,0);
 
   for(size_t i = 0; i<m_arms.size(); ++i)
@@ -189,14 +190,17 @@ void NGLScene::drawScene(const std::string &_shader)
       m_transform.reset();
       {
           m_transform.setRotation(m_arms[i].m_rot.m_x, m_arms[i].m_rot.m_y, m_arms[i].m_rot.m_z);
+
           m_transform.setPosition(m_arms[i].m_pos.m_x, m_arms[i].m_pos.m_y, m_arms[i].m_pos.m_z);
           m_transform.setScale(m_arms[i].m_scale.m_x, m_arms[i].m_scale.m_y, m_arms[i].m_scale.m_z);
+          printf("%f%f%f\n",m_arms[i].m_pos.m_x, m_arms[i].m_pos.m_y, m_arms[i].m_pos.m_z);
           Update(i);
         loadMatricesToShader();
         m_arms[i].m_vao->draw();
       } // and before a pop
 
   }
+  m_arms[1].m_scale=ngl::Vec3(0.2,0.2,0.2);
 
 }
 //----------------------------------------------------------------------------------------------------------------------
